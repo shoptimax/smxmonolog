@@ -1,6 +1,7 @@
 {
   "name": "shoptimax/smxmonolog",
   "description": "shoptimax logging lib",
+  "type":"library",
   "keywords": [
     "shoptimax",
     "logging",
@@ -11,9 +12,6 @@
   "homepage": "http://www.shoptimax.de",
   "license": "MIT",
   "config": {
-    "github-oauth": {
-      "github.com": "your-key"
-    }
   },
   "repositories": {
   },
@@ -28,7 +26,6 @@
   },
   "extra": {
   },
-
   "scripts": {
   },
   "authors": [
@@ -37,6 +34,11 @@
       "email": "moises@shoptimax.de"
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "Shoptimax\\SmxMonolog\\Log\\": ""
+    }
+  },
   "minimum-stability": "dev",
   "prefer-stable": true
 }
