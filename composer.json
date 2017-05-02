@@ -1,0 +1,42 @@
+{
+  "name": "shoptimax/smxmonolog",
+  "description": "shoptimax logging lib",
+  "keywords": [
+    "shoptimax",
+    "logging",
+    "monolog",
+    "graylog",
+    "gelf"
+  ],
+  "homepage": "http://www.shoptimax.de",
+  "license": "MIT",
+  "config": {
+    "github-oauth": {
+      "github.com": "your-key"
+    }
+  },
+  "repositories": {
+  },
+  "require": {
+    "monolog/monolog": "^1.0",
+    "graylog2/gelf-php": "~1.2",
+    "wazaari/monolog-mysql": ">1.0.0",
+    "theorchard/monolog-cascade": "*",
+    "hirak/prestissimo": "^0.3"
+  },
+  "require-dev": {
+  },
+  "extra": {
+  },
+
+  "scripts": {
+  },
+  "authors": [
+    {
+      "name": "Stefan Moises",
+      "email": "moises@shoptimax.de"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
