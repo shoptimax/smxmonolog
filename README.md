@@ -96,6 +96,116 @@ loggers:
 
 ```
 
+And here is the same config via php file:
+
+```php
+<?php
+
+return array(
+    'version' => 1,
+
+    'formatters' => array(
+        'spaced' => array(
+            'format' => "%datetime% %channel%.%level_name%  %message%\n",
+            'include_stacktraces' => true
+        ),
+        'dashed' => array(
+            'format' => "%datetime%-%channel%.%level_name% - %message%\n"
+        ),
+    ),
+    'handlers' => array(
+        'console' => array(
+            'class' => 'Monolog\Handler\StreamHandler',
+            'level' => 'DEBUG',
+            'formatter' => 'spaced',
+            'stream' => 'php://stdout'
+        ),
+
+        'info_file_handler' => array(
+            'class' => 'Monolog\Handler\StreamHandler',
+            'level' => 'INFO',
+            'formatter' => 'dashed',
+            'stream' => './logs/smxmonolog_info.log'
+        ),
+
+        'error_file_handler' => array(
+            'class' => 'Monolog\Handler\StreamHandler',
+            'level' => 'ERROR',
+            'stream' => './logs/smxmonolog_error.log',
+            'formatter' => 'spaced'
+        ),
+
+        'gelf' => array(
+            'class' => 'Monolog\Handler\GelfHandler',
+            'level' => 'DEBUG',
+            'publisher' => array(
+                'class' => 'Gelf\Publisher',
+                'transport' => array(
+                    'class' => 'Gelf\Transport\UdpTransport',
+                    'host' => '127.0.0.1',
+                    'port' => '12200'
+                )
+            ),
+        ),
+
+        'mysql' => array(
+            'class' => 'MySQLHandler\MySQLHandler',
+            'level' => 'DEBUG',
+            'pdo' => array(
+                'class' => 'PDO',
+                'dsn' => 'mysql:dbname=smxmonolog;host=127.0.0.1',
+                'username' => 'myuser',
+                'passwd' => 'mypassword',
+                'options' => array()
+            ),
+            'table' => 'logs',
+            'additional_fields' => array('line', 'file', 'origin'),
+            'bubble' => 'true'
+        )
+    ),
+    'processors' => array(
+        'web_processor' => array(
+            'class' => 'Monolog\Processor\WebProcessor'
+        ),
+        'introspection_processor' => array(
+            'class' => 'Monolog\Processor\IntrospectionProcessor'
+        ),
+        'memory_processor' => array(
+            'class' => 'Monolog\Processor\MemoryUsageProcessor'
+        ),
+        'psr_processor' => array(
+            'class' => 'Monolog\Processor\PsrLogMessageProcessor'
+        ),
+        'tag_processor' => array(
+            'class' => 'Monolog\Processor\TagProcessor',
+            'tags' => array()
+        ),
+    ),
+    'loggers' => array(
+        'multiLogger' => array(
+            'handlers' => array('console', 'info_file_handler', 'error_file_handler', 'mysql', 'gelf'),
+            'processors' => array('psr_processor', 'web_processor', 'introspection_processor', 'memory_processor')
+        ),
+        'consoleLogger' => array(
+            'handlers' => array('console'),
+            'processors' => array('psr_processor')
+        ),
+        'fileLogger' => array(
+            'handlers' => array('info_file_handler', 'error_file_handler'),
+            'processors' => array('psr_processor', 'web_processor', 'introspection_processor')
+        ),
+        'dbLogger' => array(
+            'handlers' => array('console', 'mysql'),
+            'processors' => array('psr_processor', 'web_processor', 'introspection_processor')
+        ),
+        'gelfLogger' => array(
+            'handlers' => array('console', 'gelf'),
+            'processors' => array('psr_processor', 'web_processor', 'introspection_processor')
+        ),
+    )
+);
+```
+
 Just change the Graylog / GELF and/or MySQL parameters to real values!
 
 Of course you can define _any custom loggers_ you can think of, using [any handlers and processors available](https://github.com/Seldaek/monolog/blob/master/doc/02-handlers-formatters-processors.md)!
