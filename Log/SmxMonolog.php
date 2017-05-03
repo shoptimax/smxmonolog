@@ -10,7 +10,11 @@
 
 namespace Shoptimax\SmxMonolog\Log;
 
-require_once dirname(__FILE__) . '/../vendor/autoload.php';
+if (file_exists(dirname(__FILE__) . '/../vendor/autoload.php')) {
+    include_once dirname(__FILE__) . '/../vendor/autoload.php';
+} elseif (file_exists(dirname(__FILE__) . '/../../../../vendor/autoload.php')) {
+    include_once dirname(__FILE__) . '/../../../../vendor/autoload.php';
+}
 
 use Cascade\Cascade;
 use Monolog\Logger as Logger;
