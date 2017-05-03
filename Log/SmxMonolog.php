@@ -48,10 +48,10 @@ class SmxMonolog
      *
      * @param SmxMonologConfig $smxMonologConfig The class holding the
      *                                           Cascade file configuration
-     * @param int              $iLogLevel        The Monolog log level, see
+     * @param string           $logLevel         The Monolog log level, see
      *                                           https://github.com/Seldaek/monolog/blob/master/src/Monolog/Logger.php
      */
-    public function __construct(SmxMonologConfig $smxMonologConfig, $iLogLevel = 0)
+    public function __construct(SmxMonologConfig $smxMonologConfig, $logLevel = 'INFO')
     {
         $this->smxMonologConfig = $smxMonologConfig;
         $fileConfig = $smxMonologConfig->getFileConfig();
@@ -63,11 +63,11 @@ class SmxMonolog
         if (!count(self::$aLogLevels)) {
             self::$aLogLevels = Logger::getLevels();
         }
-        if ($iLogLevel < 1) {
+        if ($logLevel == '') {
             // set default log level
             $this->logLevel = self::$aLogLevels['INFO'];
         } else {
-            $this->logLevel = $iLogLevel;
+            $this->logLevel = self::getLogLevel($logLevel);
         }
         Cascade::fileConfig($fileConfig);
     }
@@ -93,28 +93,29 @@ class SmxMonolog
     /**
      * Set the log level
      *
-     * @param int $iLogLevel The log level
+     * @param int $logLevel The log level
      *
      * @return null
      */
-    public function setLogLevel($iLogLevel)
+    public function setLogLevel($logLevel)
     {
+        $iLogLevel = self::getLogLevel($logLevel);
         $this->logLevel = $iLogLevel;
     }
 
     /**
      * The main logging function
      *
-     * @param string $message   The log message
-     * @param array  $context   Additional context info
-     * @param int    $iLogLevel Custom log level for message
+     * @param string $message  The log message
+     * @param array  $context  Additional context info
+     * @param string $logLevel Custom log level for message
      *
      * @return null
      */
-    public function log($message, array $context = array(), $iLogLevel = 0)
+    public function log($message, array $context = array(), $logLevel = '')
     {
-        if ($iLogLevel > 0) {
-            $this->logLevel = $iLogLevel;
+        if ($logLevel != '') {
+            $this->logLevel = self::getLogLevel($logLevel);
         }
         // add extra "origin" ctxt field for filtering in graylog, mysql etc.
         // since "facility" is set to the logger configuration name

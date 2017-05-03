@@ -35,14 +35,14 @@ class SmxMonologTest
         $config->setCtxtOrigin('www.mydomain.de');
 
         // new logger, set config and initial log level
-        $logger = new SmxMonolog($config, SmxMonolog::getLogLevel('INFO'));
+        $logger = new SmxMonolog($config, 'INFO');
         // log with additional fields
         $logger->log("Hello, World!", array('foo' => 'bar'));
         // change log level
-        $logger->setLogLevel(SmxMonolog::getLogLevel('NOTICE'));
+        $logger->setLogLevel('NOTICE');
         $logger->log("Hello, Notice!");
         // set a custom log level for a message
-        $logger->log("Hello, Custom Alert!", array(), SmxMonolog::getLogLevel('ALERT'));
+        $logger->log("Hello, Custom Alert!", array(), 'ALERT');
         // use dedicated log functions with fix level
         $logger->debug("Will have {food} for {meal}", array('food' => 'fish', 'meal' => 'breakfast'));
         $logger->warning("Testing this warning");
