@@ -8,6 +8,22 @@ This lib uses [Monolog](https://github.com/Seldaek/monolog/) and [Monolog Cascad
 
 For MySQL, it uses [Monolog-MySQL](https://github.com/waza-ari/monolog-mysql), for GELF support is uses the official [GelfHandler](https://github.com/Seldaek/monolog/blob/master/src/Monolog/Handler/GelfHandler.php).
 
+## Installation
+
+Install via Composer:
+
+```json
+  "repositories": {
+    "shoptimax/smxmonolog": {
+      "type": "vcs",
+      "url": "https://github.com/shoptimax/smxmonolog.git"
+    }
+  },
+  "require": {
+    "shoptimax/smxmonolog": "*"
+  }
+```
+
 ## Configuration
 
 For global configuration, Monolog Cascade is used, here is an example YAML configuration:
