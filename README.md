@@ -42,15 +42,17 @@ handlers:
         processors: [memory_processor]
         stream: php://stdout
     info_file_handler:
-        class: Monolog\Handler\StreamHandler
+        class: Monolog\Handler\RotatingFileHandler
         level: INFO
         formatter: dashed
-        stream: ./logs/smxmonolog_info.log
+        filename: ./log/smxmonolog_info.log
+        maxFiles: 20
     error_file_handler:
-        class: Monolog\Handler\StreamHandler
+        class: Monolog\Handler\RotatingFileHandler
         level: ERROR
         formatter: dashed
-        stream: ./logs/smxmonolog_error.log
+        filename: ./log/smxmonolog_error.log
+        maxFiles: 20
     gelf:
         class: Monolog\Handler\GelfHandler
         level: DEBUG
@@ -138,17 +140,19 @@ return array(
         ),
 
         'info_file_handler' => array(
-            'class' => 'Monolog\Handler\StreamHandler',
+            'class' => 'Monolog\Handler\RotatingFileHandler',
             'level' => 'INFO',
             'formatter' => 'dashed',
-            'stream' => './logs/smxmonolog_info.log'
+            'filename' => $config['infoLogfilePath'],
+            'maxFiles' => 20
         ),
 
         'error_file_handler' => array(
-            'class' => 'Monolog\Handler\StreamHandler',
+            'class' => 'Monolog\Handler\RotatingFileHandler',
             'level' => 'ERROR',
-            'stream' => './logs/smxmonolog_error.log',
-            'formatter' => 'spaced'
+            'formatter' => 'spaced',
+            'filename' => $config['errorLogfilePath'],
+            'maxFiles' => 20
         ),
 
         'gelf' => array(
