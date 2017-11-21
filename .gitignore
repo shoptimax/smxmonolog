@@ -1,3 +1,4 @@
 logconfig.yaml
 *.log
 vendor/
+.vscode-upload.json

@@ -122,35 +122,39 @@ class SmxMonolog
         if (!isset($context['origin']) && ($facility = $this->smxMonologConfig->getCtxtOrigin()) != '') {
             $context['origin'] = $facility;
         }
-        $logger = Cascade::getLogger($this->smxMonologConfig->getLoggerName());
-        switch ($this->logLevel) {
-        case Logger::DEBUG:
-            $logger->debug($message, $context);
-            break;
-        case Logger::INFO:
-            $logger->info($message, $context);
-            break;
-        case Logger::NOTICE:
-            $logger->notice($message, $context);
-            break;
-        case Logger::WARNING:
-            $logger->warning($message, $context);
-            break;
-        case Logger::ERROR:
-            $logger->error($message, $context);
-            break;
-        case Logger::CRITICAL:
-            $logger->critical($message, $context);
-            break;
-        case Logger::ALERT:
-            $logger->alert($message, $context);
-            break;
-        case Logger::EMERGENCY:
-            $logger->emergency($message, $context);
-            break;
-        default:
-            $logger->info($message, $context);
-        }
+        try {
+            $logger = Cascade::getLogger($this->smxMonologConfig->getLoggerName());
+            switch ($this->logLevel) {
+            case Logger::DEBUG:
+                $logger->debug($message, $context);
+                break;
+            case Logger::INFO:
+                $logger->info($message, $context);
+                break;
+            case Logger::NOTICE:
+                $logger->notice($message, $context);
+                break;
+            case Logger::WARNING:
+                $logger->warning($message, $context);
+                break;
+            case Logger::ERROR:
+                $logger->error($message, $context);
+                break;
+            case Logger::CRITICAL:
+                $logger->critical($message, $context);
+                break;
+            case Logger::ALERT:
+                $logger->alert($message, $context);
+                break;
+            case Logger::EMERGENCY:
+                $logger->emergency($message, $context);
+                break;
+            default:
+                $logger->info($message, $context);
+            }
+        } catch (\Exception $ex) {
+            error_log("Exception with Monolog logger: " . $ex->getMessage());
+        }    
     }
 
     /**
